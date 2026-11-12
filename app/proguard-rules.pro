@@ -1,0 +1,1 @@
+# Nexa Cars ProGuard rules.
