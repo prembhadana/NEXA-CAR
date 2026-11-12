@@ -44,13 +44,6 @@ private data class Variant(val name:String, val price:Long, val fuel:String, val
 private data class Model(val name:String, val subtitle:String, val variants:List<Variant>, val hero:String)
 private val commonSafety = listOf("6 Airbags","ABS with EBD","ESP / Stability Control","ISOFIX Child Seat Anchorages")
 private val models = listOf(
- Model("Baleno","Premium Hatchback • Petrol / S-CNG","", listOf(), "baleno"),
- Model("Fronx","Sporty Compact SUV • Petrol / Turbo / CNG","", listOf(), "fronx"),
- Model("Grand Vitara","Premium SUV • Strong Hybrid / Smart Hybrid / CNG","", listOf(), "grand"),
- Model("XL6","Premium 6-Seater • Smart Hybrid / CNG","", listOf(), "xl6"),
- Model("e-Vitara","Electric SUV • 49 kWh / 61 kWh","", listOf(), "ev")
-).let { base ->
- listOf(
   Model("Baleno","Premium Hatchback • Petrol / S-CNG", listOf(
    Variant("Sigma MT",599360,"Petrol",commonSafety+listOf("Reverse Parking Sensors","ESP with Hill Hold Assist")),
    Variant("Delta MT",700360,"Petrol",commonSafety+listOf("Touchscreen Infotainment","Steering Mounted Controls")),
@@ -99,10 +92,10 @@ private val models = listOf(
    Variant("Alpha 1.5 MT",1239570,"Petrol",commonSafety+listOf("Captain Seats","Cruise Control","SmartPlay Pro")),
    Variant("Alpha+ 1.5 MT",1317870,"Petrol",commonSafety+listOf("Ventilated Seats","Captain Seats","360 View Camera")),
    Variant("Alpha+ 1.5 MT Dual Tone",1333270,"Petrol",commonSafety+listOf("Ventilated Seats","Captain Seats","Dual Tone")),
-   Variant("Zeta 1.5 AT",128?L,"Petrol AT",commonSafety+listOf("Captain Seats","Automatic Transmission")),
+   Variant("Zeta 1.5 AT",0L,"Petrol AT",commonSafety+listOf("Captain Seats","Automatic Transmission")),
    Variant("Alpha 1.5 AT",1394560,"Petrol AT",commonSafety+listOf("Captain Seats","Cruise Control","Automatic Transmission")),
    Variant("Alpha+ 1.5 AT",1453270,"Petrol AT",commonSafety+listOf("Ventilated Seats","Captain Seats","360 View Camera")),
-   Variant("Zeta CNG 1.5 MT",120?L,"S-CNG",commonSafety+listOf("Captain Seats","Factory Fitted S-CNG"))
+   Variant("Zeta CNG 1.5 MT",0L,"S-CNG",commonSafety+listOf("Captain Seats","Factory Fitted S-CNG"))
   ),"xl6"),
   Model("e-Vitara","Electric SUV • 49 kWh / 61 kWh", listOf(
    Variant("Delta 49 kWh",1619578,"Electric",commonSafety+listOf("49 kWh Battery","HEARTECT-e Platform","Connected Car Features")),
@@ -111,7 +104,6 @@ private val models = listOf(
    Variant("Alpha 61 kWh Dual Tone",1999578,"Electric",commonSafety+listOf("61 kWh Battery","Fixed Glass Sunroof","Dual Tone"))
   ),"ev")
  )
-}
 
 private data class Quote(
  val customer:String,val mobile:String,val model:String,val variant:String,val ex:Long,val rto:Long,
