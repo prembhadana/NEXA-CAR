@@ -286,7 +286,7 @@ private fun QuotationScreen(onBack: () -> Unit, onSharePdf: (QuoteDetails) -> Un
     var mobile by remember { mutableStateOf("") }
     var exShowroomText by remember { mutableStateOf(balenoVariants[0].price.toString()) }
     var insuranceText by remember { mutableStateOf("") }
-    var fastagText by remember { mutableStateOf("600") }
+    var fastagText by remember { mutableStateOf("0") }
     var accessoriesText by remember { mutableStateOf("0") }
     var warrantyText by remember { mutableStateOf("0") }
     var discountText by remember { mutableStateOf("0") }
@@ -300,7 +300,7 @@ private fun QuotationScreen(onBack: () -> Unit, onSharePdf: (QuoteDetails) -> Un
     val accessories = parseAmount(accessoriesText)
     val warranty = parseAmount(warrantyText)
     val discount = parseAmount(discountText)
-    val total = (exShowroom + rto + insurance + fastag + accessories + warranty - discount - cngRebate).coerceAtLeast(0L)
+    val total = (exShowroom + rto + insurance + fastag + accessories + warranty - discount).coerceAtLeast(0L)
     val context = LocalContext.current
 
     Column(Modifier.fillMaxSize().background(PageBg)) {
@@ -373,7 +373,7 @@ private fun QuotationScreen(onBack: () -> Unit, onSharePdf: (QuoteDetails) -> Un
                 Column(Modifier.fillMaxWidth().padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text("ESTIMATED ON-ROAD PRICE", color = Color(0xFFB8C1CC), fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
                     Text(money(total), color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.ExtraBold)
-                    Text("Includes entered charges and calculated RTO. Insurance must be entered to complete estimate.", color = Color(0xFFB8C1CC), fontSize = 11.sp)
+                    Text("Includes entered charges and calculated RTO. CNG rebate is shown for reference and is not deducted until its adjustment basis is confirmed.", color = Color(0xFFB8C1CC), fontSize = 11.sp)
                 }
             }
 
