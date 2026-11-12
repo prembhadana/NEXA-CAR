@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
         canvas.drawText("CAR QUOTATION", 40f, y, paint)
         y += 38f
         paint.textSize = 14f
-        paint.typeface = android.graphics.Typeface.NORMAL
+        paint.typeface = android.graphics.Typeface.create("sans-serif", android.graphics.Typeface.NORMAL)
         val rows = listOf(
             "Customer: ${details.customer.ifBlank { "Customer" }}",
             "Mobile: ${details.mobile.ifBlank { "Not provided" }}",
@@ -128,7 +128,7 @@ class MainActivity : ComponentActivity() {
                 paint.textSize = 18f
             } else {
                 paint.color = android.graphics.Color.rgb(55, 65, 81)
-                paint.typeface = android.graphics.Typeface.NORMAL
+                paint.typeface = android.graphics.Typeface.create("sans-serif", android.graphics.Typeface.NORMAL)
                 paint.textSize = 14f
             }
             canvas.drawText(row, 40f, y, paint)
@@ -136,7 +136,7 @@ class MainActivity : ComponentActivity() {
         }
         paint.color = android.graphics.Color.GRAY
         paint.textSize = 10f
-        paint.typeface = android.graphics.Typeface.NORMAL
+        paint.typeface = android.graphics.Typeface.create("sans-serif", android.graphics.Typeface.NORMAL)
         canvas.drawText("Estimate only. Confirm current dealership-approved charges before delivery.", 40f, 790f, paint)
         document.finishPage(page)
 
@@ -219,8 +219,7 @@ private fun HomeScreen(onCreateQuotation: () -> Unit) {
             Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = NexaBlack)) {
                 Column(Modifier.fillMaxWidth().padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Text("QUICK QUOTATION", color = Color(0xFF78C8F1), fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-                    Text("Your next deal
-starts here.", color = Color.White, fontSize = 27.sp, fontWeight = FontWeight.Bold, lineHeight = 32.sp)
+                    Text("Your next deal\\nstarts here.", color = Color.White, fontSize = 27.sp, fontWeight = FontWeight.Bold, lineHeight = 32.sp)
                     Text("Select a vehicle, add customer details and prepare an on-road estimate.", color = Color(0xFFCFD6DE), fontSize = 13.sp)
                     Button(
                         onClick = onCreateQuotation,
