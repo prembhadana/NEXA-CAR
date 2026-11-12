@@ -1,6 +1,8 @@
 package com.nexa.cars
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
@@ -20,6 +22,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,6 +44,13 @@ private val Green = Color(0xFF16865B)
 private val Red = Color(0xFFC2413B)
 private fun money(v: Long) = "₹" + NumberFormat.getNumberInstance(Locale("en","IN")).format(v)
 private fun amount(s: String) = s.filter { it.isDigit() }.toLongOrNull() ?: 0L
+private fun loadHero(context: android.content.Context, name: String): android.graphics.Bitmap? = try {
+ val encoded = context.assets.open("$"+"{name}.jpg.b64").bufferedReader().use { it.readText().trim() }
+ if (!encoded.startsWith("/9j/")) null else {
+  val bytes = Base64.decode(encoded, Base64.DEFAULT)
+  BitmapFactory.decodeByteArray(bytes,0,bytes.size)
+ }
+} catch (_: Exception) { null }
 
 private data class Variant(val name:String, val price:Long, val fuel:String, val features:List<String>)
 private data class Model(val name:String, val subtitle:String, val variants:List<Variant>, val hero:String)
@@ -170,6 +182,7 @@ class MainActivity:ComponentActivity(){
 }
 
 @Composable private fun HomeScreen(rm:String,phone:String,onProfile:()->Unit,onChoose:(Model)->Unit){
+ val context = LocalContext.current
  Column(Modifier.fillMaxSize().background(Bg).verticalScroll(rememberScrollState())){
   Column(Modifier.fillMaxWidth().background(Ink).padding(horizontal=22.dp,vertical=25.dp)){
    Text("NEXA",color=Color.White,fontSize=28.sp,fontWeight=FontWeight.ExtraBold,letterSpacing=4.sp)
@@ -191,10 +204,12 @@ class MainActivity:ComponentActivity(){
     }
    }
    models.forEach { m ->
+    val heroBitmap = remember(m.hero) { loadHero(context,m.hero) }
     Card(Modifier.fillMaxWidth().clickable{onChoose(m)},shape=RoundedCornerShape(19.dp),colors=CardDefaults.cardColors(containerColor=Color.White),elevation=CardDefaults.cardElevation(2.dp)){
      Column {
-      Box(Modifier.fillMaxWidth().height(145.dp).background(Color(0xFFE6EDF3)),contentAlignment=Alignment.Center){
-       Text(m.name.uppercase(),color=Deep,fontSize=27.sp,fontWeight=FontWeight.ExtraBold,letterSpacing=1.5.sp)
+      Box(Modifier.fillMaxWidth().height(165.dp).background(Color(0xFFE6EDF3)),contentAlignment=Alignment.Center){
+       if(heroBitmap != null) Image(bitmap=heroBitmap.asImageBitmap(),contentDescription=m.name,modifier=Modifier.fillMaxSize(),contentScale=ContentScale.Crop)
+       else Text(m.name.uppercase(),color=Deep,fontSize=27.sp,fontWeight=FontWeight.ExtraBold,letterSpacing=1.5.sp)
       }
       Row(Modifier.fillMaxWidth().padding(horizontal=16.dp,vertical=13.dp),verticalAlignment=Alignment.CenterVertically){
        Column(Modifier.weight(1f)){Text(m.name,color=Ink,fontSize=20.sp,fontWeight=FontWeight.Bold);Text(m.subtitle,color=Muted,fontSize=11.sp)}
